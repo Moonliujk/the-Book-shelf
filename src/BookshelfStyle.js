@@ -6,7 +6,7 @@ function BookshelfStyle(props) {
     return (
       <div className="bookshelf-books">
         <ol className="books-grid">
-          {this.props.bookList.map((item, index) => (
+          {props.bookList.map((item, index) => (
               <li key={ index }>
                 <div className="book">
                   <div className="book-top">
