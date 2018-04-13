@@ -4,8 +4,7 @@ import './App.css'
 import { Link } from 'react-router-dom'
 import BookshelfStyle from './BookshelfStyle.js'
 
-class Main extends React.Component {
-  render() {
+function Main(props) {
     return (
       <div className="list-books">
           <div className="list-books-title">
@@ -15,15 +14,15 @@ class Main extends React.Component {
             <div>
               <div className="bookshelf">
                 <h2 className="bookshelf-title">Currently Reading</h2>
-                <BookshelfStyle  bookList={ this.props.books.currentlyReading } changeBookShelf={ this.props.changeBookShelf } />
+                <BookshelfStyle  bookList={ props.books.filter(book => book.shelf === "currentlyReading") } changeBookShelf={ props.changeBookShelf } />
               </div>
               <div className="bookshelf">
                 <h2 className="bookshelf-title">Want to Read</h2>
-                <BookshelfStyle bookList={ this.props.books.wantToRead } changeBookShelf={ this.props.changeBookShelf } />
+                <BookshelfStyle bookList={ props.books.filter(book => book.shelf === "wantToRead") } changeBookShelf={ props.changeBookShelf } />
               </div>
               <div className="bookshelf">
                 <h2 className="bookshelf-title">Read</h2>
-                <BookshelfStyle bookList={ this.props.books.read } changeBookShelf={ this.props.changeBookShelf } />
+                <BookshelfStyle bookList={ props.books.filter(book => book.shelf === "read") } changeBookShelf={ props.changeBookShelf } />
               </div>
             </div>
           </div>
@@ -35,7 +34,6 @@ class Main extends React.Component {
           </div>
       </div>
     )
-  }
 }
 
 export default Main

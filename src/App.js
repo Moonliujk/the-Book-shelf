@@ -14,18 +14,14 @@ class BooksApp extends React.Component {
      * users can use the browser's back and forward buttons to navigate between
      * pages, as well as provide a good URL they can bookmark and share.
      */
-    currentlyReading: [],
-    wantToRead: [],
-    read: []
+    books: [];
   }
 
   getAllBooks = () => {
     BooksAPI.getAll()
       .then((books) => {
-        console.log(books);
-        this.setState({currentlyReading: books.filter((book) => book.shelf === "currentlyReading")});
-        this.setState({wantToRead: books.filter((book) => book.shelf === "wantToRead")});
-        this.setState({read: books.filter((book) => book.shelf === "read")});
+        //console.log(books);
+        this.setState({books: books});
       })
   }
 //get all books' information
@@ -33,10 +29,30 @@ class BooksApp extends React.Component {
     this.getAllBooks();
   }
 
+//只调用一次后台数据更新，前端页面数据更新由以下代码完成
   changeBookShelf = (book, shelf) => {
     //if (book.shelf === shelf) return;
     BooksAPI.update(book, shelf)
-      .then(() => this.getAllBooks())
+      .then(
+        this.setState(prevState => {
+          let newBooks;
+
+          const restOfBooksInShelf = prevState.books.filter(
+            preBook => preBook.id !== book.id
+          );
+          console.log("the restOfBooksInShelf is ", restOfBooksInShelf);
+          if (shelf !== "none") {
+            book.shelf = shelf;
+            newBooks = restOfBooksInShelf.concat([book]);
+          } else {
+            newBooks = restOfBooksInShelf;
+          }
+          console.log("the lastest booklist is ", newBooks);
+          return {
+            books: newBooks
+          };
+        })
+      );
   }
 
   render() {
@@ -46,13 +62,13 @@ class BooksApp extends React.Component {
             exact
             path="/"
             render={() => (
-              <Main books={ this.state } changeBookShelf={ this.changeBookShelf } />
+              <Main books={ this.state.books } changeBookShelf={ this.changeBookShelf } />
             )}
         />
         <Route
             path="/search"
             render={() => (
-              <Search changeBookShelf={ this.changeBookShelf } />
+              <Search books={ this.state.books } changeBookShelf={ this.changeBookShelf } />
             )}
         />
       </div>

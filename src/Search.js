@@ -14,15 +14,30 @@ class Search extends React.Component {
     if (searchTxt.length > 0) {
       BooksAPI.search(searchTxt)
         .then((books) => {
-          console.log(books);
-          if (books.length > 1) {
-            this.setState({
-              searchResults: books
-            })
-          } else if (books.length === 1) {
-            this.setState({
-              searchResults: [books]
-            })
+          if (books.length > 0) {
+            this.setState((prevState, props) => {
+              const shelfBooks = props.books;
+
+              const newSearchBooks = books.map(searchBook => {
+
+                const searchBookInshelfBook = shelfBooks.find(
+                  shelfBook => shelfBook.id === searchBook.id
+                );
+
+                return {
+                  //ES6spread语法，将对象解构
+                  ...searchBook,
+                  shelf: searchBookInshelfBook
+                    ? searchBookInshelfBook.shelf
+                    : "none"
+                };
+              });
+
+              return {
+                searchResults: newSearchBooks
+              };
+            });
+
           } else {
             console.log("没有返回查询结果！");
           }
