@@ -29,7 +29,8 @@ class BooksApp extends React.Component {
     this.getAllBooks();
   }
 
-//只调用一次后台数据更新，前端页面数据更新由以下代码完成
+//只调用一次后台数据更新，前端页面数据更新由以下代码完成：通过将选中的书本单列出，更新其
+//书架信息，然后再更新state实现前端页面数据的更新
   changeBookShelf = (book, shelf) => {
     //if (book.shelf === shelf) return;
     BooksAPI.update(book, shelf)

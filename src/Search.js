@@ -15,8 +15,9 @@ class Search extends React.Component {
       BooksAPI.search(searchTxt)
         .then((books) => {
           if (books.length > 0) {
-            this.setState((prevState, props) => {
-              const shelfBooks = props.books;
+            this.setState((prevState, prevProps) => {
+              // prevProps.books 书架上已存在的书会修改书架属性
+              const shelfBooks = prevProps.books;
 
               const newSearchBooks = books.map(searchBook => {
 
