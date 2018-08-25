@@ -17,6 +17,7 @@ clone 该项目到本地，进入项目目录，运行 `npm install` 安装所�
 - 通过 React Router 进行页面路由管理
 
 具体实现如下图所示：
+
 | 页面类型 | 页面展示 |
 | :-------: | :--------: |
 |  主页面  |![我的书架](https://raw.githubusercontent.com/Moonliujk/imageBaseForArticle/master/myBookShelf/main_page.png)|
